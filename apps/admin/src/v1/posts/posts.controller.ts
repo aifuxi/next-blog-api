@@ -14,7 +14,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FindPostDto } from './dto/find-post.dto';
 
-@Controller('posts')
+@Controller('/v1/posts')
 @ApiTags('文章')
 @ApiBearerAuth()
 export class PostsController {

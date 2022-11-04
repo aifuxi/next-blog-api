@@ -14,7 +14,7 @@ import { UpdatePostTagDto } from './dto/update-post-tag.dto';
 import { FindPostTagDto } from './dto/find-post-tag.dto';
 import { PostTagsService } from './post-tags.service';
 
-@Controller('post_tags')
+@Controller('/v1/post_tags')
 @ApiTags('文章标签')
 @ApiBearerAuth()
 export class PostTagsController {

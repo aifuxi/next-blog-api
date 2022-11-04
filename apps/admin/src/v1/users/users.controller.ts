@@ -14,7 +14,7 @@ import { FindUserDto } from './dto/find-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 
-@Controller('users')
+@Controller('/v1/users')
 @ApiTags('用户')
 @ApiBearerAuth()
 export class UsersController {

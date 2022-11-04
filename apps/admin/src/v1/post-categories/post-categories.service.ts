@@ -39,7 +39,7 @@ export class PostCategoriesService {
       updatedAt = order;
     }
 
-    const total = await this.dbService.postTag.count({
+    const total = await this.dbService.postCategory.count({
       where: {
         name: {
           contains: name,
@@ -53,7 +53,7 @@ export class PostCategoriesService {
       skip: offset,
       take: limit,
     });
-    const lists = await this.dbService.postTag.findMany({
+    const lists = await this.dbService.postCategory.findMany({
       where: {
         name: {
           contains: name,
@@ -72,18 +72,18 @@ export class PostCategoriesService {
   }
 
   findOne(id: string) {
-    return this.dbService.postTag.findUnique({ where: { id } });
+    return this.dbService.postCategory.findUnique({ where: { id } });
   }
 
   update(id: string, updatePostCategoryDto: UpdatePostCategoryDto) {
-    return this.dbService.postTag.update({
+    return this.dbService.postCategory.update({
       where: { id },
       data: updatePostCategoryDto,
     });
   }
 
   remove(id: string) {
-    return this.dbService.postTag.update({
+    return this.dbService.postCategory.update({
       where: { id },
       data: { isDeleted: true },
     });

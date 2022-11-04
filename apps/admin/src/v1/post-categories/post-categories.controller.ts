@@ -14,7 +14,7 @@ import { UpdatePostCategoryDto } from './dto/update-post-category.dto';
 import { CreatePostCategoryDto } from './dto/create-post-category.dto';
 import { FindPostCategoryDto } from './dto/find-post-category.dto';
 
-@Controller('post_categories')
+@Controller('/v1/post_categories')
 @ApiTags('文章分类')
 @ApiBearerAuth()
 export class PostCategoriesController {
