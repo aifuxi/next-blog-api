@@ -11,11 +11,12 @@ import {
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FindPostDto } from './dto/find-post.dto';
 
 @Controller('posts')
 @ApiTags('文章')
+@ApiBearerAuth()
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
@@ -32,16 +33,19 @@ export class PostsController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: '根据id查询文章' })
   findOne(@Param('id') id: string) {
     return this.postsService.findOne(id);
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: '更新文章' })
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
     return this.postsService.update(id, updatePostDto);
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: '软删除文章' })
   remove(@Param('id') id: string) {
     return this.postsService.remove(id);
   }

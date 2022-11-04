@@ -29,13 +29,17 @@ async function bootstrap() {
     .setTitle('博客后台api')
     .setDescription('使用nestjs prisma postgresql构建')
     .setVersion('0.1')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
   await app.listen(8000);
 
-  logger.log('server is running at http://localhost:8000');
-  logger.log('swagger doc is running at http://localhost:8000/docs');
+  logger.log('server is running at http://localhost:8000', 'LOOK AT ME ->->');
+  logger.log(
+    'swagger api doc is running at http://localhost:8000/docs',
+    'LOOK AT ME ->->',
+  );
 }
 bootstrap();

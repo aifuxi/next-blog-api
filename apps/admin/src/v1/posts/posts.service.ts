@@ -7,9 +7,8 @@ import {
   DEFAULT_LIMIT,
   DEFAULT_OFFSET,
 } from '@libs/common/constants/pagination';
-import { PostSortByEnum, PostSortDto } from '@libs/common/dtos/sort.dto';
+import { PostSortByEnum } from '@libs/common/dtos/sort.dto';
 import { Prisma } from '@prisma/client';
-import { PaginationDto } from '@libs/common/dtos/pagination.dto';
 
 @Injectable()
 export class PostsService {
@@ -23,7 +22,7 @@ export class PostsService {
   }
 
   // TODO: 查询接口
-  async findMany(findPostDto: FindPostDto & PostSortDto & PaginationDto) {
+  async findMany(findPostDto: FindPostDto) {
     const {
       title,
       id,
