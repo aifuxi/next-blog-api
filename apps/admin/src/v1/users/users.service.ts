@@ -56,7 +56,7 @@ export class UsersService {
       skip: offset,
       take: limit,
     });
-    const users = await this.dbService.user.findMany({
+    const lists = await this.dbService.user.findMany({
       where: {
         email: {
           contains: email,
@@ -71,7 +71,7 @@ export class UsersService {
       take: limit,
     });
 
-    return { total: total || 0, users };
+    return { total: total || 0, lists };
   }
 
   findOne(id: string) {

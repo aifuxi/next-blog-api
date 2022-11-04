@@ -21,7 +21,6 @@ export class PostsService {
     });
   }
 
-  // TODO: 查询接口
   async findMany(findPostDto: FindPostDto) {
     const {
       title,
@@ -60,7 +59,7 @@ export class PostsService {
       skip: offset,
       take: limit,
     });
-    const posts = await this.dbService.post.findMany({
+    const lists = await this.dbService.post.findMany({
       where: {
         title: {
           contains: title,
@@ -77,7 +76,7 @@ export class PostsService {
       take: limit,
     });
 
-    return { total: total || 0, posts };
+    return { total: total || 0, lists };
   }
 
   findOne(id: string) {
