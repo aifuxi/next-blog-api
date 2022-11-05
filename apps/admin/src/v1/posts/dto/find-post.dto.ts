@@ -22,8 +22,16 @@ export class FindPostDto extends PostSortPaginationDto {
   @IsOptional()
   @IsBoolean()
   @ApiProperty({
-    description: '文章发布是否发布',
+    description: '文章是否发布',
     required: false,
   })
   readonly isPublished?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiProperty({
+    description: '文章是否软删除',
+    required: false,
+  })
+  readonly isDeleted?: boolean;
 }

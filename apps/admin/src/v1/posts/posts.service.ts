@@ -18,6 +18,12 @@ export class PostsService {
     return this.dbService.post.create({
       data: {
         ...createPostDto,
+        categories: {
+          connect: createPostDto.categories?.map((v) => ({ id: v })),
+        },
+        tags: {
+          connect: createPostDto.tags?.map((v) => ({ id: v })),
+        },
       },
     });
   }
@@ -29,9 +35,11 @@ export class PostsService {
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
       isPublished,
+      isDeleted,
       sortBy = PostSortByEnum.createdTime,
       order = Prisma.SortOrder.desc,
     } = findPostDto;
+    console.log('isDeleted, isPublished', isDeleted, isPublished);
     const id = trimStringData(paramId);
     let publishedAt: Prisma.SortOrder | undefined,
       createdAt: Prisma.SortOrder | undefined,
@@ -45,13 +53,17 @@ export class PostsService {
     if (sortBy === PostSortByEnum.publishedTime) {
       publishedAt = order;
     }
-    const total = await this.dbService.post.count({
+    const req: Pick<
+      Prisma.PostFindManyArgs,
+      'where' | 'orderBy' | 'skip' | 'take'
+    > = {
       where: {
         title: {
           contains: title,
         },
         id,
         isPublished,
+        isDeleted,
       },
       orderBy: {
         publishedAt,
@@ -60,22 +72,14 @@ export class PostsService {
       },
       skip: offset,
       take: limit,
-    });
+    };
+    const total = await this.dbService.post.count(req);
     const lists = await this.dbService.post.findMany({
-      where: {
-        title: {
-          contains: title,
-        },
-        id,
-        isPublished,
+      ...req,
+      include: {
+        categories: true,
+        tags: true,
       },
-      orderBy: {
-        publishedAt,
-        createdAt,
-        updatedAt,
-      },
-      skip: offset,
-      take: limit,
     });
 
     return { total: total || 0, lists };
@@ -86,13 +90,23 @@ export class PostsService {
   }
 
   update(id: string, updatePostDto: UpdatePostDto) {
-    return this.dbService.post.update({ where: { id }, data: updatePostDto });
+    return this.dbService.post.update({
+      where: { id },
+      data: {
+        ...updatePostDto,
+        categories: {
+          connect: updatePostDto.categories?.map((v) => ({ id: v })),
+        },
+        tags: {
+          connect: updatePostDto.tags?.map((v) => ({ id: v })),
+        },
+      },
+    });
   }
 
   remove(id: string) {
-    return this.dbService.post.update({
+    return this.dbService.post.delete({
       where: { id },
-      data: { isDeleted: true },
     });
   }
 }

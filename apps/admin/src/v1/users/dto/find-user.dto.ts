@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { SortPaginationDto } from '@libs/common/dtos/sort-pagination.dto';
 
@@ -18,4 +18,12 @@ export class FindUserDto extends SortPaginationDto {
     required: false,
   })
   readonly email?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiProperty({
+    description: '是否软删除',
+    required: false,
+  })
+  readonly isDeleted?: boolean;
 }

@@ -26,6 +26,7 @@ export class PostCategoriesService {
     const {
       name,
       id: paramId,
+      isDeleted,
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
       sortBy = SortByEnum.createdTime,
@@ -41,12 +42,16 @@ export class PostCategoriesService {
       updatedAt = order;
     }
 
-    const total = await this.dbService.postCategory.count({
+    const req: Pick<
+      Prisma.PostCategoryFindManyArgs,
+      'where' | 'orderBy' | 'skip' | 'take'
+    > = {
       where: {
         name: {
           contains: name,
         },
         id,
+        isDeleted,
       },
       orderBy: {
         createdAt,
@@ -54,21 +59,9 @@ export class PostCategoriesService {
       },
       skip: offset,
       take: limit,
-    });
-    const lists = await this.dbService.postCategory.findMany({
-      where: {
-        name: {
-          contains: name,
-        },
-        id,
-      },
-      orderBy: {
-        createdAt,
-        updatedAt,
-      },
-      skip: offset,
-      take: limit,
-    });
+    };
+    const total = await this.dbService.postCategory.count(req);
+    const lists = await this.dbService.postCategory.findMany(req);
 
     return { total: total || 0, lists };
   }
@@ -85,9 +78,8 @@ export class PostCategoriesService {
   }
 
   remove(id: string) {
-    return this.dbService.postCategory.update({
+    return this.dbService.postCategory.delete({
       where: { id },
-      data: { isDeleted: true },
     });
   }
 }

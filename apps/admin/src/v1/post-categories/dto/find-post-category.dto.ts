@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 import { SortPaginationDto } from '@libs/common/dtos/sort-pagination.dto';
 
 export class FindPostCategoryDto extends SortPaginationDto {
@@ -18,4 +18,12 @@ export class FindPostCategoryDto extends SortPaginationDto {
     required: false,
   })
   readonly name?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiProperty({
+    description: '是否软删除',
+    required: false,
+  })
+  readonly isDeleted?: boolean;
 }

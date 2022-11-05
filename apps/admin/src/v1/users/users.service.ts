@@ -31,6 +31,7 @@ export class UsersService {
       email,
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
+      isDeleted,
       sortBy = SortByEnum.createdTime,
       order = Prisma.SortOrder.desc,
     } = findUserDto;
@@ -43,12 +44,16 @@ export class UsersService {
     if (sortBy === SortByEnum.updatedTime) {
       updatedAt = order;
     }
-    const total = await this.dbService.user.count({
+    const req: Pick<
+      Prisma.UserFindManyArgs,
+      'where' | 'orderBy' | 'skip' | 'take'
+    > = {
       where: {
         email: {
           contains: email,
         },
         id,
+        isDeleted,
       },
       orderBy: {
         createdAt,
@@ -56,21 +61,9 @@ export class UsersService {
       },
       skip: offset,
       take: limit,
-    });
-    const lists = await this.dbService.user.findMany({
-      where: {
-        email: {
-          contains: email,
-        },
-        id,
-      },
-      orderBy: {
-        createdAt,
-        updatedAt,
-      },
-      skip: offset,
-      take: limit,
-    });
+    };
+    const total = await this.dbService.user.count(req);
+    const lists = await this.dbService.user.findMany(req);
 
     return { total: total || 0, lists };
   }
@@ -99,9 +92,8 @@ export class UsersService {
   }
 
   remove(id: string) {
-    return this.dbService.user.update({
+    return this.dbService.user.delete({
       where: { id },
-      data: { isDeleted: true },
     });
   }
 }

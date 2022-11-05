@@ -26,6 +26,7 @@ export class PostTagsService {
     const {
       name,
       id: paramId,
+      isDeleted,
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
       sortBy = SortByEnum.createdTime,
@@ -40,13 +41,16 @@ export class PostTagsService {
     if (sortBy === SortByEnum.updatedTime) {
       updatedAt = order;
     }
-
-    const total = await this.dbService.postTag.count({
+    const req: Pick<
+      Prisma.PostTagFindManyArgs,
+      'where' | 'orderBy' | 'skip' | 'take'
+    > = {
       where: {
         name: {
           contains: name,
         },
         id,
+        isDeleted,
       },
       orderBy: {
         createdAt,
@@ -54,21 +58,9 @@ export class PostTagsService {
       },
       skip: offset,
       take: limit,
-    });
-    const lists = await this.dbService.postTag.findMany({
-      where: {
-        name: {
-          contains: name,
-        },
-        id,
-      },
-      orderBy: {
-        createdAt,
-        updatedAt,
-      },
-      skip: offset,
-      take: limit,
-    });
+    };
+    const total = await this.dbService.postTag.count(req);
+    const lists = await this.dbService.postTag.findMany(req);
 
     return { total: total || 0, lists };
   }
@@ -85,9 +77,8 @@ export class PostTagsService {
   }
 
   remove(id: string) {
-    return this.dbService.postTag.update({
+    return this.dbService.postTag.delete({
       where: { id },
-      data: { isDeleted: true },
     });
   }
 }
