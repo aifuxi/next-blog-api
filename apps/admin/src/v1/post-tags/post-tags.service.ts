@@ -9,6 +9,7 @@ import { CreatePostTagDto } from './dto/create-post-tag.dto';
 import { UpdatePostTagDto } from './dto/update-post-tag.dto';
 import { DbService } from '@libs/db';
 import { FindPostTagDto } from './dto/find-post-tag.dto';
+import { trimStringData } from '@libs/common/utils';
 
 @Injectable()
 export class PostTagsService {
@@ -24,12 +25,13 @@ export class PostTagsService {
   async findMany(findPostTagDto: FindPostTagDto) {
     const {
       name,
-      id,
+      id: paramId,
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
       sortBy = SortByEnum.createdTime,
       order = Prisma.SortOrder.desc,
     } = findPostTagDto;
+    const id = trimStringData(paramId);
     let createdAt: Prisma.SortOrder | undefined,
       updatedAt: Prisma.SortOrder | undefined;
     if (sortBy === SortByEnum.createdTime) {

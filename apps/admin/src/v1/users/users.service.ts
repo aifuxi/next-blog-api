@@ -9,7 +9,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { FindUserDto } from './dto/find-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SortByEnum } from '@libs/common/dtos/sort.dto';
-import { getHashPassword } from '@libs/common/utils';
+import { getHashPassword, trimStringData } from '@libs/common/utils';
 
 @Injectable()
 export class UsersService {
@@ -27,13 +27,14 @@ export class UsersService {
 
   async findMany(findUserDto: FindUserDto) {
     const {
-      id,
+      id: paramId,
       email,
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
       sortBy = SortByEnum.createdTime,
       order = Prisma.SortOrder.desc,
     } = findUserDto;
+    const id = trimStringData(paramId);
     let createdAt: Prisma.SortOrder | undefined,
       updatedAt: Prisma.SortOrder | undefined;
     if (sortBy === SortByEnum.createdTime) {

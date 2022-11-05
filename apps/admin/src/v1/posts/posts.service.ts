@@ -9,6 +9,7 @@ import {
 } from '@libs/common/constants/pagination';
 import { PostSortByEnum } from '@libs/common/dtos/sort.dto';
 import { Prisma } from '@prisma/client';
+import { trimStringData } from '@libs/common/utils';
 
 @Injectable()
 export class PostsService {
@@ -24,13 +25,14 @@ export class PostsService {
   async findMany(findPostDto: FindPostDto) {
     const {
       title,
-      id,
+      id: paramId,
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
       isPublished,
       sortBy = PostSortByEnum.createdTime,
       order = Prisma.SortOrder.desc,
     } = findPostDto;
+    const id = trimStringData(paramId);
     let publishedAt: Prisma.SortOrder | undefined,
       createdAt: Prisma.SortOrder | undefined,
       updatedAt: Prisma.SortOrder | undefined;

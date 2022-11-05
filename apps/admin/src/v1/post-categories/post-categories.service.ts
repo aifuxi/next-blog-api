@@ -9,6 +9,7 @@ import { UpdatePostCategoryDto } from './dto/update-post-category.dto';
 import { CreatePostCategoryDto } from './dto/create-post-category.dto';
 import { FindPostCategoryDto } from './dto/find-post-category.dto';
 import { DbService } from '@libs/db';
+import { trimStringData } from '@libs/common/utils';
 
 @Injectable()
 export class PostCategoriesService {
@@ -24,12 +25,13 @@ export class PostCategoriesService {
   async findMany(findPostCategoryDto: FindPostCategoryDto) {
     const {
       name,
-      id,
+      id: paramId,
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
       sortBy = SortByEnum.createdTime,
       order = Prisma.SortOrder.desc,
     } = findPostCategoryDto;
+    const id = trimStringData(paramId);
     let createdAt: Prisma.SortOrder | undefined,
       updatedAt: Prisma.SortOrder | undefined;
     if (sortBy === SortByEnum.createdTime) {
