@@ -51,12 +51,39 @@ export class PostTagsService {
       take: limit,
     };
     const total = await this.dbService.postTag.count(req);
-    const lists = await this.dbService.postTag.findMany(req);
+    const lists = await this.dbService.postTag.findMany({
+      ...req,
+      include: {
+        posts: {
+          // 只选择返回部分字段，content字段不返回，content字段是代表文章内容，里面包含的数据可能比较多，
+          // 这里不返回，能减少response的大小
+          select: {
+            id: true,
+            title: true,
+            categories: true,
+            tags: true,
+            createdAt: true,
+            description: true,
+            view: true,
+          },
+        },
+      },
+    });
 
-    return { total: total || 0, lists };
+    const data = lists.map((v) => {
+      // posts字段对应返回文章数量而不是文章实体数组
+      return { ...v, posts: v.posts.length || 0 };
+    });
+
+    return { total: total || 0, lists: data };
   }
 
   findOne(id: string) {
-    return this.dbService.postTag.findUnique({ where: { id } });
+    return this.dbService.postTag.findUnique({
+      where: { id },
+      include: {
+        posts: true,
+      },
+    });
   }
 }
