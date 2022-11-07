@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './v1/auth/guard/jwt-auth.guard';
 import { PostTagsModule } from './v1/post-tags/post-tags.module';
 import { PostCategoriesModule } from './v1/post-categories/post-categories.module';
+import { AboutModule } from './v1/about/about.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { PostCategoriesModule } from './v1/post-categories/post-categories.modul
     UsersModule,
     PostTagsModule,
     PostCategoriesModule,
+    AboutModule,
   ],
   controllers: [AdminController],
   providers: [
