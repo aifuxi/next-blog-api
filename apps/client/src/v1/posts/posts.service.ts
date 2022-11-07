@@ -86,4 +86,14 @@ export class PostsService {
       },
     });
   }
+
+  async viewIncrement(id: string) {
+    const post = await this.dbService.post.findFirst({ where: { id } });
+    return this.dbService.post.update({
+      where: { id },
+      data: {
+        view: post.view + 1,
+      },
+    });
+  }
 }
