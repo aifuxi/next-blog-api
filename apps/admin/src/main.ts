@@ -19,6 +19,8 @@ async function bootstrap() {
     }),
   );
 
+  app.setGlobalPrefix('/admin_api');
+
   // 全局拦截器，对返回结果统一包装成 {code: xxx, message: 'success', data: xxx }
   app.useGlobalInterceptors(new TransformInterceptor());
   // 全局异常过滤器，返回统一处理异常信息和状态码

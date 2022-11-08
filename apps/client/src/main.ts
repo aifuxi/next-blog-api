@@ -18,6 +18,9 @@ async function bootstrap() {
       },
     }),
   );
+
+  app.setGlobalPrefix('/client_api');
+
   const logger = new Logger();
 
   // 全局拦截器，对返回结果统一包装成 {code: xxx, message: 'success', data: xxx }
