@@ -7,7 +7,7 @@ import { nanoid } from 'nanoid';
 import { UPLOAD_FOLDER } from '@libs/common/constants/upload';
 
 @Module({
-  imports:
+  /*imports:
     process.env.NODE_ENV !== 'production'
       ? [
           MulterModule.register({
@@ -22,7 +22,7 @@ import { UPLOAD_FOLDER } from '@libs/common/constants/upload';
             }),
           }),
         ]
-      : [],
+      : [],*/
   controllers: [FileController],
   providers: [FileService],
 })
