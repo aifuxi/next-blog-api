@@ -10,6 +10,7 @@ import { JwtAuthGuard } from './v1/auth/guard/jwt-auth.guard';
 import { PostTagsModule } from './v1/post-tags/post-tags.module';
 import { PostCategoriesModule } from './v1/post-categories/post-categories.module';
 import { AboutModule } from './v1/about/about.module';
+import { ProfileModule } from './v1/profile/profile.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AboutModule } from './v1/about/about.module';
     PostTagsModule,
     PostCategoriesModule,
     AboutModule,
+    ProfileModule,
   ],
   controllers: [AdminController],
   providers: [

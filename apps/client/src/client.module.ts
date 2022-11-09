@@ -9,9 +9,18 @@ import { StatisticsController } from './v1/statistics/statistics.controller';
 import { StatisticsService } from './v1/statistics/statistics.service';
 import { StatisticsModule } from './v1/statistics/statistics.module';
 import { AboutModule } from './v1/about/about.module';
+import { ProfileModule } from './v1/profile/profile.module';
 
 @Module({
-  imports: [DbModule, PostsModule, PostTagsModule, PostCategoriesModule, StatisticsModule, AboutModule],
+  imports: [
+    DbModule,
+    PostsModule,
+    PostTagsModule,
+    PostCategoriesModule,
+    StatisticsModule,
+    AboutModule,
+    ProfileModule,
+  ],
   controllers: [ClientController, StatisticsController],
   providers: [ClientService, StatisticsService],
 })

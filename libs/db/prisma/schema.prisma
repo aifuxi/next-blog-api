@@ -61,3 +61,16 @@ model About {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Profile {
+  id        String   @id @default(cuid())
+  author   String?
+  avatar   String?
+  slogan   String?
+  github   String?
+  email   String?
+  wechat   String?
+  site   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
