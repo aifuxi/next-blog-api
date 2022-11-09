@@ -8,8 +8,8 @@ import { ConfigModule as NestConfigModule } from '@nestjs/config';
       isGlobal: true,
       envFilePath:
         process.env.NODE_ENV === 'production'
-          ? '.development.env'
-          : '.production.env',
+          ? '.production.env'
+          : '.development.env',
     }),
   ],
   providers: [ConfigService],
