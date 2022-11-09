@@ -31,6 +31,12 @@
       "@libs/common/*": [
         "libs/db/src/*",
         "libs/common/src/*"
+      ],
+      "@libs/config": [
+        "libs/config/src"
+      ],
+      "@libs/config/*": [
+        "libs/config/src/*"
       ]
     }
   }

@@ -4,6 +4,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { TransformInterceptor } from '@libs/common/interceptors/transform.interceptor';
 import { HttpExceptionFilter } from '@libs/common/filters/http-execption.filter';
+import { ADMIN_API, ADMIN_API_DOCS } from '@libs/common/constants/path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AdminModule);
@@ -36,11 +37,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(8000);
+  await app.listen(Number(process.env.ADMIN_PORT));
 
-  logger.log('server is running at http://localhost:8000', 'LOOK AT ME ->->');
+  logger.log(`server is running at ${ADMIN_API}`, 'LOOK AT ME ->->');
   logger.log(
-    'swagger api doc is running at http://localhost:8000/docs',
+    `swagger api doc is running at ${ADMIN_API_DOCS}`,
     'LOOK AT ME ->->',
   );
 }

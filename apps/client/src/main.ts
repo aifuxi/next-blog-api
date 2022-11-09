@@ -4,6 +4,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { TransformInterceptor } from '@libs/common/interceptors/transform.interceptor';
 import { HttpExceptionFilter } from '@libs/common/filters/http-execption.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { CLIENT_API, CLIENT_API_DOCS } from '@libs/common/constants/path';
 
 async function bootstrap() {
   const app = await NestFactory.create(ClientModule);
@@ -39,9 +40,9 @@ async function bootstrap() {
 
   await app.listen(9000);
 
-  logger.log('server is running at http://localhost:9000', 'LOOK AT ME ->->');
+  logger.log(`server is running at ${CLIENT_API}`, 'LOOK AT ME ->->');
   logger.log(
-    'swagger api doc is running at http://localhost:9000/docs',
+    `swagger api doc is running at ${CLIENT_API_DOCS}`,
     'LOOK AT ME ->->',
   );
 }

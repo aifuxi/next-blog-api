@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@libs/config';
 import { ClientController } from './client.controller';
 import { ClientService } from './client.service';
 import { DbModule } from '@libs/db';
@@ -13,6 +14,7 @@ import { ProfileModule } from './v1/profile/profile.module';
 
 @Module({
   imports: [
+    ConfigModule,
     DbModule,
     PostsModule,
     PostTagsModule,
