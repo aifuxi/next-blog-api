@@ -19,12 +19,9 @@ export class PostsService {
       id: paramId,
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
-      isPublished,
-      isDeleted,
       sortBy = PostSortByEnum.createdTime,
       order = Prisma.SortOrder.desc,
     } = findPostDto;
-    console.log('isDeleted, isPublished', isDeleted, isPublished);
     const id = trimStringData(paramId);
     let publishedAt: Prisma.SortOrder | undefined,
       createdAt: Prisma.SortOrder | undefined,
@@ -47,8 +44,8 @@ export class PostsService {
           contains: title,
         },
         id,
-        isPublished,
-        isDeleted,
+        isPublished: true,
+        isDeleted: false,
       },
       orderBy: {
         publishedAt,
