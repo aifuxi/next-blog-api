@@ -35,10 +35,7 @@ export class PostsService {
     if (sortBy === PostSortByEnum.publishedTime) {
       publishedAt = order;
     }
-    const req: Pick<
-      Prisma.PostFindManyArgs,
-      'where' | 'orderBy' | 'skip' | 'take'
-    > = {
+    const req: Pick<Prisma.PostFindManyArgs, 'where' | 'orderBy'> = {
       where: {
         title: {
           contains: title,
@@ -52,12 +49,12 @@ export class PostsService {
         createdAt,
         updatedAt,
       },
-      skip: offset,
-      take: limit,
     };
     const total = await this.dbService.post.count(req);
     const lists = await this.dbService.post.findMany({
       ...req,
+      skip: offset,
+      take: limit,
       // 只选择返回部分字段，content字段不返回，content字段是代表文章内容，里面包含的数据可能比较多，
       // 这里不返回，能减少response的大小
       select: {

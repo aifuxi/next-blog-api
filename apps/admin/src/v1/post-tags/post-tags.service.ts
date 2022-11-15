@@ -41,10 +41,7 @@ export class PostTagsService {
     if (sortBy === SortByEnum.updatedTime) {
       updatedAt = order;
     }
-    const req: Pick<
-      Prisma.PostTagFindManyArgs,
-      'where' | 'orderBy' | 'skip' | 'take'
-    > = {
+    const req: Pick<Prisma.PostTagFindManyArgs, 'where' | 'orderBy'> = {
       where: {
         name: {
           contains: name,
@@ -56,11 +53,13 @@ export class PostTagsService {
         createdAt,
         updatedAt,
       },
-      skip: offset,
-      take: limit,
     };
     const total = await this.dbService.postTag.count(req);
-    const lists = await this.dbService.postTag.findMany(req);
+    const lists = await this.dbService.postTag.findMany({
+      ...req,
+      skip: offset,
+      take: limit,
+    });
 
     return { total: total || 0, lists };
   }

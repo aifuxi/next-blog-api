@@ -53,10 +53,7 @@ export class PostsService {
     if (sortBy === PostSortByEnum.publishedTime) {
       publishedAt = order;
     }
-    const req: Pick<
-      Prisma.PostFindManyArgs,
-      'where' | 'orderBy' | 'skip' | 'take'
-    > = {
+    const req: Pick<Prisma.PostFindManyArgs, 'where' | 'orderBy'> = {
       where: {
         title: {
           contains: title,
@@ -70,12 +67,12 @@ export class PostsService {
         createdAt,
         updatedAt,
       },
-      skip: offset,
-      take: limit,
     };
     const total = await this.dbService.post.count(req);
     const lists = await this.dbService.post.findMany({
       ...req,
+      skip: offset,
+      take: limit,
       include: {
         categories: true,
         tags: true,

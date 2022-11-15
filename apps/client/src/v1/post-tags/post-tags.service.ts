@@ -32,10 +32,7 @@ export class PostTagsService {
     if (sortBy === SortByEnum.updatedTime) {
       updatedAt = order;
     }
-    const req: Pick<
-      Prisma.PostTagFindManyArgs,
-      'where' | 'orderBy' | 'skip' | 'take'
-    > = {
+    const req: Pick<Prisma.PostTagFindManyArgs, 'where' | 'orderBy'> = {
       where: {
         name: {
           contains: name,
@@ -47,12 +44,12 @@ export class PostTagsService {
         createdAt,
         updatedAt,
       },
-      skip: offset,
-      take: limit,
     };
     const total = await this.dbService.postTag.count(req);
     const lists = await this.dbService.postTag.findMany({
       ...req,
+      skip: offset,
+      take: limit,
       include: {
         posts: {
           // 只选择返回部分字段，content字段不返回，content字段是代表文章内容，里面包含的数据可能比较多，

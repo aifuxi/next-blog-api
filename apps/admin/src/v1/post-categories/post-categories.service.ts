@@ -42,10 +42,7 @@ export class PostCategoriesService {
       updatedAt = order;
     }
 
-    const req: Pick<
-      Prisma.PostCategoryFindManyArgs,
-      'where' | 'orderBy' | 'skip' | 'take'
-    > = {
+    const req: Pick<Prisma.PostCategoryFindManyArgs, 'where' | 'orderBy'> = {
       where: {
         name: {
           contains: name,
@@ -57,11 +54,13 @@ export class PostCategoriesService {
         createdAt,
         updatedAt,
       },
-      skip: offset,
-      take: limit,
     };
     const total = await this.dbService.postCategory.count(req);
-    const lists = await this.dbService.postCategory.findMany(req);
+    const lists = await this.dbService.postCategory.findMany({
+      ...req,
+      skip: offset,
+      take: limit,
+    });
 
     return { total: total || 0, lists };
   }

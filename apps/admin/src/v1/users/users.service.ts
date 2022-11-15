@@ -44,10 +44,7 @@ export class UsersService {
     if (sortBy === SortByEnum.updatedTime) {
       updatedAt = order;
     }
-    const req: Pick<
-      Prisma.UserFindManyArgs,
-      'where' | 'orderBy' | 'skip' | 'take'
-    > = {
+    const req: Pick<Prisma.UserFindManyArgs, 'where' | 'orderBy'> = {
       where: {
         email: {
           contains: email,
@@ -59,11 +56,13 @@ export class UsersService {
         createdAt,
         updatedAt,
       },
-      skip: offset,
-      take: limit,
     };
     const total = await this.dbService.user.count(req);
-    const lists = await this.dbService.user.findMany(req);
+    const lists = await this.dbService.user.findMany({
+      ...req,
+      skip: offset,
+      take: limit,
+    });
 
     return { total: total || 0, lists };
   }
