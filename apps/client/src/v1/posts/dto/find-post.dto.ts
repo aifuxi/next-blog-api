@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import { PostSortPaginationDto } from '@libs/common/dtos/sort-pagination.dto';
 
 export class FindPostDto extends PostSortPaginationDto {

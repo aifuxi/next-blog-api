@@ -3,7 +3,7 @@ import {
   DEFAULT_LIMIT,
   DEFAULT_OFFSET,
 } from '@libs/common/constants/pagination';
-import { SortByEnum } from '@libs/common/dtos/sort.dto';
+import { SORT_BY_ENUM } from '@libs/common/dtos/sort.dto';
 import { Prisma } from '@prisma/client';
 import { CreatePostTagDto } from './dto/create-post-tag.dto';
 import { UpdatePostTagDto } from './dto/update-post-tag.dto';
@@ -29,16 +29,16 @@ export class PostTagsService {
       isDeleted,
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
-      sortBy = SortByEnum.createdTime,
+      sortBy = SORT_BY_ENUM.CREATED_TIME,
       order = Prisma.SortOrder.desc,
     } = findPostTagDto;
     const id = trimStringData(paramId);
     let createdAt: Prisma.SortOrder | undefined,
       updatedAt: Prisma.SortOrder | undefined;
-    if (sortBy === SortByEnum.createdTime) {
+    if (sortBy === SORT_BY_ENUM.CREATED_TIME) {
       createdAt = order;
     }
-    if (sortBy === SortByEnum.updatedTime) {
+    if (sortBy === SORT_BY_ENUM.UPDATED_TIME) {
       updatedAt = order;
     }
     const req: Pick<Prisma.PostTagFindManyArgs, 'where' | 'orderBy'> = {

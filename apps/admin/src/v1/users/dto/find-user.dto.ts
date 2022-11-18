@@ -1,6 +1,7 @@
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { SortPaginationDto } from '@libs/common/dtos/sort-pagination.dto';
+import { IS_DELETED_ENUM } from '@libs/common/constants/enum';
 
 export class FindUserDto extends SortPaginationDto {
   @IsOptional()
@@ -20,10 +21,11 @@ export class FindUserDto extends SortPaginationDto {
   readonly email?: string;
 
   @IsOptional()
-  @IsBoolean()
+  @IsNumber()
   @ApiProperty({
     description: '是否软删除',
     required: false,
+    enum: [IS_DELETED_ENUM.NO, IS_DELETED_ENUM.YES],
   })
-  readonly isDeleted?: boolean;
+  readonly isDeleted?: number;
 }

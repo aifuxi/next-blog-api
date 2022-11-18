@@ -1,6 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 import { PostSortPaginationDto } from '@libs/common/dtos/sort-pagination.dto';
+import {
+  IS_DELETED_ENUM,
+  IS_PUBLISHED_ENUM,
+} from '@libs/common/constants/enum';
 
 export class FindPostDto extends PostSortPaginationDto {
   @IsOptional()
@@ -20,18 +24,22 @@ export class FindPostDto extends PostSortPaginationDto {
   readonly title?: string;
 
   @IsOptional()
-  @IsBoolean()
+  @IsNumber()
   @ApiProperty({
+    default: IS_PUBLISHED_ENUM.NO,
     description: '文章是否发布',
     required: false,
+    enum: [IS_PUBLISHED_ENUM.NO, IS_PUBLISHED_ENUM.YES],
   })
-  readonly isPublished?: boolean;
+  readonly isPublished?: number;
 
   @IsOptional()
-  @IsBoolean()
+  @IsNumber()
   @ApiProperty({
-    description: '文章是否软删除',
+    default: IS_DELETED_ENUM.NO,
+    description: '是否软删除',
     required: false,
+    enum: [IS_DELETED_ENUM.NO, IS_DELETED_ENUM.YES],
   })
-  readonly isDeleted?: boolean;
+  readonly isDeleted?: number;
 }

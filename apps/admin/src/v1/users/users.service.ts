@@ -8,8 +8,9 @@ import { Prisma } from '@prisma/client';
 import { CreateUserDto } from './dto/create-user.dto';
 import { FindUserDto } from './dto/find-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { SortByEnum } from '@libs/common/dtos/sort.dto';
+import { SORT_BY_ENUM } from '@libs/common/dtos/sort.dto';
 import { getHashPassword, trimStringData } from '@libs/common/utils';
+import { IS_DELETED_ENUM } from '@libs/common/constants/enum';
 
 @Injectable()
 export class UsersService {
@@ -32,16 +33,16 @@ export class UsersService {
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
       isDeleted,
-      sortBy = SortByEnum.createdTime,
+      sortBy = SORT_BY_ENUM.CREATED_TIME,
       order = Prisma.SortOrder.desc,
     } = findUserDto;
     const id = trimStringData(paramId);
     let createdAt: Prisma.SortOrder | undefined,
       updatedAt: Prisma.SortOrder | undefined;
-    if (sortBy === SortByEnum.createdTime) {
+    if (sortBy === SORT_BY_ENUM.CREATED_TIME) {
       createdAt = order;
     }
-    if (sortBy === SortByEnum.updatedTime) {
+    if (sortBy === SORT_BY_ENUM.UPDATED_TIME) {
       updatedAt = order;
     }
     const req: Pick<Prisma.UserFindManyArgs, 'where' | 'orderBy'> = {
@@ -75,7 +76,7 @@ export class UsersService {
     const user = await this.dbService.user.findFirst({
       where: {
         email,
-        isDeleted: false,
+        isDeleted: IS_DELETED_ENUM.NO,
       },
     });
 

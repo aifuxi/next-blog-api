@@ -5,9 +5,13 @@ import {
   DEFAULT_LIMIT,
   DEFAULT_OFFSET,
 } from '@libs/common/constants/pagination';
-import { PostSortByEnum } from '@libs/common/dtos/sort.dto';
+import { POST_SORT_BY_ENUM } from '@libs/common/dtos/sort.dto';
 import { Prisma } from '@prisma/client';
 import { trimStringData } from '@libs/common/utils';
+import {
+  IS_DELETED_ENUM,
+  IS_PUBLISHED_ENUM,
+} from '@libs/common/constants/enum';
 
 @Injectable()
 export class PostsService {
@@ -19,20 +23,20 @@ export class PostsService {
       id: paramId,
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
-      sortBy = PostSortByEnum.createdTime,
+      sortBy = POST_SORT_BY_ENUM.CREATED_TIME,
       order = Prisma.SortOrder.desc,
     } = findPostDto;
     const id = trimStringData(paramId);
     let publishedAt: Prisma.SortOrder | undefined,
       createdAt: Prisma.SortOrder | undefined,
       updatedAt: Prisma.SortOrder | undefined;
-    if (sortBy === PostSortByEnum.createdTime) {
+    if (sortBy === POST_SORT_BY_ENUM.CREATED_TIME) {
       createdAt = order;
     }
-    if (sortBy === PostSortByEnum.updatedTime) {
+    if (sortBy === POST_SORT_BY_ENUM.UPDATED_TIME) {
       updatedAt = order;
     }
-    if (sortBy === PostSortByEnum.publishedTime) {
+    if (sortBy === POST_SORT_BY_ENUM.PUBLISHED_TIME) {
       publishedAt = order;
     }
     const req: Pick<Prisma.PostFindManyArgs, 'where' | 'orderBy'> = {
@@ -41,8 +45,8 @@ export class PostsService {
           contains: title,
         },
         id,
-        isPublished: true,
-        isDeleted: false,
+        isPublished: IS_PUBLISHED_ENUM.YES,
+        isDeleted: IS_DELETED_ENUM.NO,
       },
       orderBy: {
         publishedAt,

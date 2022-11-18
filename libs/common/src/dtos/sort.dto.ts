@@ -2,27 +2,27 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsOptional } from 'class-validator';
 import { Prisma } from '@prisma/client';
 
-export enum SortByEnum {
-  createdTime = 'createdTime',
-  updatedTime = 'updatedTime',
+export enum SORT_BY_ENUM {
+  CREATED_TIME = 'CREATED_TIME',
+  UPDATED_TIME = 'UPDATED_TIME',
 }
 
-export enum PostSortByEnum {
-  createdTime = 'createdTime',
-  updatedTime = 'updatedTime',
-  publishedTime = 'publishedTime',
+export enum POST_SORT_BY_ENUM {
+  CREATED_TIME = 'CREATED_TIME',
+  UPDATED_TIME = 'UPDATED_TIME',
+  PUBLISHED_TIME = 'PUBLISHED_TIME',
 }
 
 export class SortDto {
   @IsOptional()
-  @IsEnum(SortByEnum)
+  @IsEnum(SORT_BY_ENUM)
   @ApiProperty({
     description: '按什么类型排序; 默认createdTime',
-    default: SortByEnum.createdTime,
+    default: SORT_BY_ENUM.CREATED_TIME,
     required: false,
-    enum: SortByEnum,
+    enum: SORT_BY_ENUM,
   })
-  readonly sortBy?: SortByEnum;
+  readonly sortBy?: SORT_BY_ENUM;
 
   @IsOptional()
   @IsEnum(Prisma.SortOrder)
@@ -37,15 +37,15 @@ export class SortDto {
 
 export class PostSortDto {
   @IsOptional()
-  @IsEnum(PostSortByEnum)
+  @IsEnum(POST_SORT_BY_ENUM)
   @ApiProperty({
     description: '按什么类型排序; 默认createdTime',
-    default: SortByEnum.createdTime,
-    type: PostSortByEnum,
+    default: SORT_BY_ENUM.CREATED_TIME,
+    type: POST_SORT_BY_ENUM,
     required: false,
-    enum: PostSortByEnum,
+    enum: POST_SORT_BY_ENUM,
   })
-  readonly sortBy?: PostSortByEnum;
+  readonly sortBy?: POST_SORT_BY_ENUM;
 
   @IsOptional()
   @IsEnum(Prisma.SortOrder)

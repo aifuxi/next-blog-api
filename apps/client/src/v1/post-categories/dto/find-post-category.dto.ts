@@ -18,12 +18,4 @@ export class FindPostCategoryDto extends SortPaginationDto {
     required: false,
   })
   readonly name?: string;
-
-  @IsOptional()
-  @IsBoolean()
-  @ApiProperty({
-    description: '是否软删除',
-    required: false,
-  })
-  readonly isDeleted?: boolean;
 }
