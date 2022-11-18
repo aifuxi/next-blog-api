@@ -65,6 +65,7 @@ export class PostsService {
         id: true,
         title: true,
         categories: true,
+        type: true,
         tags: true,
         createdAt: true,
         description: true,

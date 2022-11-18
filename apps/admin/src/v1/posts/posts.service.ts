@@ -35,6 +35,7 @@ export class PostsService {
       offset = DEFAULT_OFFSET,
       limit = DEFAULT_LIMIT,
       isPublished,
+      type,
       isDeleted,
       sortBy = POST_SORT_BY_ENUM.CREATED_TIME,
       order = Prisma.SortOrder.desc,
@@ -61,6 +62,7 @@ export class PostsService {
         id,
         isPublished,
         isDeleted,
+        type,
       },
       orderBy: {
         publishedAt,
